@@ -1,0 +1,16 @@
+# Compiled class file
+*.class
+
+# Log files
+*.log
+
+# Gradle build directories
+.gradle/
+build/
+
+# IntelliJ IDEA files
+*.iml
+*.iws
+*.ipr
+.idea/
+.idea_modules/
