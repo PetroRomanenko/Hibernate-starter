@@ -1,5 +1,6 @@
 package com.ferros;
 
+import com.ferros.entity.PersonalInfo;
 import com.ferros.entity.User;
 import com.ferros.util.HibernateUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +17,11 @@ public class HibernateRunner {
 //    private static final Logger log = LoggerFactory.getLogger(HibernateRunner.class);
     public static void main(String[] args) throws SQLException {
         User user = User.builder()
-                .username("ivan@gmail.com")
-                .lastname("Ivanov")
-                .firstname("Ivan")
+                .username("petr@gmail.com")
+                .personalInfo(PersonalInfo.builder()
+                        .lastname("Petrov")
+                        .firstname("Petr")
+                        .build())
                 .build();
 
         log.info("User entity is in transient state? object: {}", user);

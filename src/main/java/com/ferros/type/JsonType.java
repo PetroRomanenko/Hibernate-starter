@@ -1,4 +1,4 @@
-package com.ferros.entity.type;
+package com.ferros.type;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

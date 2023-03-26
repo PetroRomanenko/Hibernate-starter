@@ -27,12 +27,9 @@ import java.time.LocalDate;
 public class User {
     @Id
     private String username;
-    private String firstname;
-    private String lastname;
-//    @Convert(converter = BirthdayConverter.class)
-    @Column(name = "birth_date")
-    private Birthday birthDate;
-
+    @Embedded
+    @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
+    private PersonalInfo personalInfo;
     @Type(type = "ferros" )
     private String info;
 
