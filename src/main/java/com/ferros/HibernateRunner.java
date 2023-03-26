@@ -1,19 +1,19 @@
 package com.ferros;
 
-import com.ferros.converter.BirthdayConverter;
-import com.ferros.entity.Birthday;
-import com.ferros.entity.Role;
 import com.ferros.entity.User;
 import com.ferros.util.HibernateUtil;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 
+@Slf4j
 public class HibernateRunner {
+//    private static final Logger log = LoggerFactory.getLogger(HibernateRunner.class);
     public static void main(String[] args) throws SQLException {
         User user = User.builder()
                 .username("ivan@gmail.com")
@@ -21,20 +21,24 @@ public class HibernateRunner {
                 .firstname("Ivan")
                 .build();
 
+        log.info("User entity is in transient state? object: {}", user);
+
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()){
-             try(Session session1 = sessionFactory.openSession()) {
-                session1.beginTransaction();
-                session1.save(user);
+            Session session1 = sessionFactory.openSession();
+             try(session1) {
+                 Transaction transaction = session1.beginTransaction();
+
+                 log.trace("Transaction is crated? {}", transaction);
+                session1.saveOrUpdate(user);
+                 log.warn("User is in persistent state: {}, session {}", user, session1);
 
                 session1.getTransaction().commit();
-            } try(Session session2 = sessionFactory.openSession()) {
-                session2.beginTransaction();
-                user.setFirstname("Sveta");
-//                session2.delete(user);
-                session2.refresh(user);
-                session2.getTransaction().commit();
-            }
+            }catch (Exception exception){
+                 log.error("Exception occurred", exception);
+                 throw exception;
+             }
+
         }
 
 
