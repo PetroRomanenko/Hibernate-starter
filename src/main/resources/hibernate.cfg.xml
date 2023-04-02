@@ -15,6 +15,7 @@
 
 
     <mapping class="com.ferros.entity.User"/>
+    <mapping class="com.ferros.entity.Company"/>
     <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 
