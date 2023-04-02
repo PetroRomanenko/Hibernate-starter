@@ -25,9 +25,14 @@ import java.time.LocalDate;
 @Table(name = "users",schema = "public")
 @TypeDef(name = "ferros",typeClass = JsonBinaryType.class)
 public class User {
-    @Id
+//    @Id
+//    @GeneratedValue(generator = "user_gen", strategy = GenerationType.SEQUENCE)
+//    @SequenceGenerator(name = "user_gen", sequenceName = "user_id_seq", allocationSize = 1)
+//    private Long id;
+
+    @Column(unique = true)
     private String username;
-    @Embedded
+    @EmbeddedId
     @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
     private PersonalInfo personalInfo;
     @Type(type = "ferros" )

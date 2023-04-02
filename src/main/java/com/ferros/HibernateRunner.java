@@ -1,5 +1,6 @@
 package com.ferros;
 
+import com.ferros.entity.Birthday;
 import com.ferros.entity.PersonalInfo;
 import com.ferros.entity.User;
 import com.ferros.util.HibernateUtil;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 @Slf4j
 public class HibernateRunner {
@@ -21,6 +23,7 @@ public class HibernateRunner {
                 .personalInfo(PersonalInfo.builder()
                         .lastname("Petrov")
                         .firstname("Petr")
+                        .birthDate(new Birthday(LocalDate.of(200,1,19)))
                         .build())
                 .build();
 
@@ -37,6 +40,15 @@ public class HibernateRunner {
                  log.warn("User is in persistent state: {}, session {}", user, session1);
 
                 session1.getTransaction().commit();
+                try(Session session = sessionFactory.openSession()){
+                    PersonalInfo key = PersonalInfo.builder()
+                            .lastname("Petrov")
+                            .firstname("Petr")
+                            .birthDate(new Birthday(LocalDate.of(200, 1, 19)))
+                            .build();
+                    User user2 = session.get(User.class, key);
+                    System.out.println();
+                }
             }catch (Exception exception){
                  log.error("Exception occurred", exception);
                  throw exception;
